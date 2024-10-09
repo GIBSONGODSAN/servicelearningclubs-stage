@@ -1,17 +1,14 @@
 services:
   ui:
     build: ..\socialclubsFE\.
-    ports:
-      - "3000:3000"
     depends_on:
       - api
     networks:
       - socialclubs-network
+    command: npm start
 
   api:
     build: ..\socialclubsBE\.
-    ports:
-      - "8000:8000"
     depends_on:
       - db
     networks:
@@ -23,17 +20,26 @@ services:
       [
         "/bin/sh",
         "-c",
-        "python manage.py migrate && python manage.py runserver",
+        "python manage.py migrate && python manage.py runserver 0.0.0.0:8000",
       ]
 
   db:
     image: postgres:latest
-    ports:
-      - "5432:5432"
     env_file:
       - ./env/db.env
     volumes:
       - socialclubs-pgdata:/var/lib/postgresql/data
+    networks:
+      - socialclubs-network
+
+  nginx:
+    build: .
+    ports:
+      - "80:80"
+    depends_on:
+      - ui
+      - api
+    restart: always
     networks:
       - socialclubs-network
 
