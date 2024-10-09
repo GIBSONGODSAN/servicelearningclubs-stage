@@ -1,6 +1,6 @@
 services:
   ui:
-    build: ..\socialclubsFE\.
+    image: ghcr.io/gibsongodsan/socialclubs-fe:latest
     depends_on:
       - api
     networks:
@@ -8,7 +8,7 @@ services:
     command: npm start
 
   api:
-    build: ..\socialclubsBE\.
+    build: ghcr.io/gibsongodsan/socialclubs-be:latest
     depends_on:
       - db
     networks:
@@ -33,7 +33,7 @@ services:
       - socialclubs-network
 
   nginx:
-    build: .
+    image: ghcr.io/gibsongodsan/socialclubs-nginx:latest
     ports:
       - "80:80"
     depends_on:
