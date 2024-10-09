@@ -8,7 +8,7 @@ services:
     command: npm start
 
   api:
-    build: ghcr.io/gibsongodsan/socialclubs-be:latest
+    image: ghcr.io/gibsongodsan/socialclubs-be:latest
     depends_on:
       - db
     networks:
